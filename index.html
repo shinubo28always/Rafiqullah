@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VIP Redirecting...</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -18,15 +18,26 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
 
+    /* 🔥 Animated Golden Text */
     h2 {
       font-family: 'Cinzel Decorative', cursive;
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 700;
-      color: #FFD700;
-      text-shadow: 0 0 15px rgba(255,215,0,0.8), 0 0 30px rgba(255,215,0,0.6);
-      margin-bottom: 30px;
+      background: linear-gradient(270deg, #FFD700, #FF8C00, #FFD700);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: goldFlow 5s ease infinite;
+      text-shadow: 0 0 20px rgba(255,215,0,0.8);
+    }
+
+    @keyframes goldFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .countdown-wrapper {
@@ -44,7 +55,13 @@
       font-size: 40px;
       font-weight: bold;
       color: #FFD700;
-      text-shadow: 0 0 10px #FFD700, 0 0 20px #FF8C00;
+      text-shadow: 0 0 15px gold, 0 0 30px #FF8C00;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.2); }
     }
 
     svg circle {
@@ -54,14 +71,14 @@
     }
 
     .bg-ring {
-      stroke: rgba(255, 215, 0, 0.2);
+      stroke: rgba(255, 215, 0, 0.15);
     }
 
     .progress-ring {
       stroke: url(#gold-gradient);
       stroke-dasharray: 440;
       stroke-dashoffset: 0;
-      filter: drop-shadow(0 0 15px gold);
+      filter: drop-shadow(0 0 20px gold);
       transition: stroke-dashoffset 1s linear;
     }
 
@@ -87,12 +104,36 @@
     }
 
     .access-msg {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: bold;
       color: #FFD700;
-      text-shadow: 0 0 10px gold, 0 0 25px #FF8C00;
+      text-shadow: 0 0 15px gold, 0 0 35px #FF8C00;
       display: none;
       margin-top: 20px;
+      animation: glowBlink 1s infinite alternate;
+    }
+
+    @keyframes glowBlink {
+      from { opacity: 0.5; }
+      to { opacity: 1; }
+    }
+
+    /* ✨ Floating golden particles */
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: gold;
+      opacity: 0.6;
+      box-shadow: 0 0 10px gold, 0 0 20px #FF8C00;
+      animation: floatUp 10s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
     }
   </style>
 </head>
@@ -117,7 +158,17 @@
   <p>✨ Preparing VIP Link<span class="dot-animate"></span></p>
   <div id="accessMsg" class="access-msg">✨ ACCESS GRANTED ✨</div>
 
+  <!-- ✨ Golden Particles -->
   <script>
+    for (let i = 0; i < 15; i++) {
+      let particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.animationDuration = (6 + Math.random() * 6) + 's';
+      particle.style.animationDelay = (Math.random() * 5) + 's';
+      document.body.appendChild(particle);
+    }
+
     function getQueryParam(param) {
       const params = new URLSearchParams(window.location.search);
       return params.get(param);
@@ -137,7 +188,7 @@
     window.onload = function () {
       const timer = document.getElementById('timer');
       const ring = document.querySelector('.progress-ring');
-      const circumference = 2 * Math.PI * 70; // r=70
+      const circumference = 2 * Math.PI * 70; 
       ring.style.strokeDasharray = circumference;
       ring.style.strokeDashoffset = 0;
 
@@ -154,7 +205,7 @@
           document.getElementById('accessMsg').style.display = 'block';
           setTimeout(() => {
             if (redirectTo) window.location.href = redirectTo;
-          }, 1200);
+          }, 1500);
         }
       }, 1000);
     };
