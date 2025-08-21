@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VIP Redirecting...</title>
+  <title>VIP Offline Redirect</title>
+
+  <!-- Font: Offline version use korte paro -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -21,7 +23,6 @@
       overflow: hidden;
     }
 
-    /* 🔥 Animated Golden Text */
     h2 {
       font-family: 'Cinzel Decorative', cursive;
       font-size: 28px;
@@ -60,8 +61,8 @@
     }
 
     @keyframes pulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -50%) scale(1.2); }
+      0%,100% { transform: translate(-50%,-50%) scale(1); }
+      50% { transform: translate(-50%,-50%) scale(1.2); }
     }
 
     svg circle {
@@ -71,7 +72,7 @@
     }
 
     .bg-ring {
-      stroke: rgba(255, 215, 0, 0.15);
+      stroke: rgba(255,215,0,0.15);
     }
 
     .progress-ring {
@@ -93,7 +94,7 @@
       content: '';
       display: inline-block;
       width: 1em;
-      animation: dots 1.5s steps(3, end) infinite;
+      animation: dots 1.5s steps(3,end) infinite;
     }
 
     @keyframes dots {
@@ -118,7 +119,7 @@
       to { opacity: 1; }
     }
 
-    /* ✨ Floating golden particles */
+    /* Floating particles */
     .particle {
       position: absolute;
       width: 6px;
@@ -131,9 +132,24 @@
     }
 
     @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-      20% { opacity: 1; }
-      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+      0% { transform: translateY(100vh) scale(0.5); opacity:0;}
+      20% { opacity:1; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity:0;}
+    }
+
+    /* Poster Box */
+    .poster-box {
+      background: rgba(255,255,255,0.05);
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 20px;
+      width: 250px;
+      box-shadow: 0 0 20px rgba(255,215,0,0.3);
+    }
+
+    .poster-box img {
+      width: 100%;
+      border-radius: 10px;
     }
   </style>
 </head>
@@ -158,57 +174,50 @@
   <p>✨ Preparing VIP Link<span class="dot-animate"></span></p>
   <div id="accessMsg" class="access-msg">✨ ACCESS GRANTED ✨</div>
 
-  <!-- ✨ Golden Particles -->
+  <!-- Poster / Optional Button -->
+  <div class="poster-box">
+    <img src="poster.jpg" alt="Poster">
+    <p>Click Image to Open</p>
+  </div>
+
   <script>
-    for (let i = 0; i < 15; i++) {
+    // Create floating particles
+    for (let i=0;i<15;i++){
       let particle = document.createElement('div');
-      particle.className = 'particle';
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.animationDuration = (6 + Math.random() * 6) + 's';
-      particle.style.animationDelay = (Math.random() * 5) + 's';
+      particle.className='particle';
+      particle.style.left=Math.random()*100+'vw';
+      particle.style.animationDuration=(6+Math.random()*6)+'s';
+      particle.style.animationDelay=(Math.random()*5)+'s';
       document.body.appendChild(particle);
     }
 
-    function getQueryParam(param) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(param);
-    }
+    // Countdown + Redirect
+    let countdown=3;
+    let redirectTo="final_page.html"; // Local file or external link
 
-    let countdown = 3;
-    let urlParam = getQueryParam('url');
-    let startParam = getQueryParam('start');
-    let redirectTo = "";
+    window.onload = function(){
+      const timer=document.getElementById('timer');
+      const ring=document.querySelector('.progress-ring');
+      const circumference=2*Math.PI*70;
+      ring.style.strokeDasharray=circumference;
+      ring.style.strokeDashoffset=0;
 
-    if (urlParam) {
-      redirectTo = decodeURIComponent(urlParam.trim());
-    } else if (startParam) {
-      redirectTo = "https://t.me/AniReal_File_Store_Bot?start=" + encodeURIComponent(startParam.trim());
-    }
-
-    window.onload = function () {
-      const timer = document.getElementById('timer');
-      const ring = document.querySelector('.progress-ring');
-      const circumference = 2 * Math.PI * 70; 
-      ring.style.strokeDasharray = circumference;
-      ring.style.strokeDashoffset = 0;
-
-      const interval = setInterval(() => {
+      const interval=setInterval(()=>{
         countdown--;
-        timer.textContent = countdown;
+        timer.textContent=countdown;
+        let offset=circumference-(circumference*(countdown/3));
+        ring.style.strokeDashoffset=offset;
 
-        let offset = circumference - (circumference * (countdown / 3));
-        ring.style.strokeDashoffset = offset;
-
-        if (countdown <= 0) {
+        if(countdown<=0){
           clearInterval(interval);
-          timer.textContent = "0";
-          document.getElementById('accessMsg').style.display = 'block';
-          setTimeout(() => {
-            if (redirectTo) window.location.href = redirectTo;
-          }, 1500);
+          timer.textContent="0";
+          document.getElementById('accessMsg').style.display='block';
+          setTimeout(()=>{
+            window.location.href=redirectTo;
+          },1500);
         }
-      }, 1000);
-    };
+      },1000);
+    }
   </script>
 
 </body>
