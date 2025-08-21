@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIP Redirecting...</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
-      color: white;
+      background: radial-gradient(circle at center, #111 0%, #000 100%);
+      color: #fff;
+      margin: 0;
+      padding: 0;
       text-align: center;
       min-height: 100vh;
-      margin: 0;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -19,14 +21,18 @@
     }
 
     h2 {
-      font-size: 22px;
-      font-weight: bold;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 26px;
+      font-weight: 700;
+      color: #FFD700;
+      text-shadow: 0 0 15px rgba(255,215,0,0.8), 0 0 30px rgba(255,215,0,0.6);
+      margin-bottom: 30px;
     }
 
     .countdown-wrapper {
       position: relative;
-      width: 120px;
-      height: 120px;
+      width: 150px;
+      height: 150px;
       margin: 20px auto;
     }
 
@@ -35,10 +41,10 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 36px;
+      font-size: 40px;
       font-weight: bold;
-      color: #fff;
-      text-shadow: 0 0 10px #00c8ff;
+      color: #FFD700;
+      text-shadow: 0 0 10px #FFD700, 0 0 20px #FF8C00;
     }
 
     svg circle {
@@ -48,21 +54,22 @@
     }
 
     .bg-ring {
-      stroke: rgba(255, 255, 255, 0.2);
+      stroke: rgba(255, 215, 0, 0.2);
     }
 
     .progress-ring {
-      stroke: url(#gradient);
-      stroke-dasharray: 314;
+      stroke: url(#gold-gradient);
+      stroke-dasharray: 440;
       stroke-dashoffset: 0;
-      filter: drop-shadow(0 0 10px #00c8ff);
+      filter: drop-shadow(0 0 15px gold);
       transition: stroke-dashoffset 1s linear;
     }
 
     p {
       font-size: 18px;
       font-weight: bold;
-      color: #d9d9d9;
+      color: #aaa;
+      margin-top: 20px;
     }
 
     .dot-animate::after {
@@ -78,27 +85,37 @@
       66% { content: '..'; }
       100% { content: '...'; }
     }
+
+    .access-msg {
+      font-size: 22px;
+      font-weight: bold;
+      color: #FFD700;
+      text-shadow: 0 0 10px gold, 0 0 25px #FF8C00;
+      display: none;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
 
-  <h2>👑 YOUR LINK IS ALMOST READY</h2>
+  <h2>👑 VIP ACCESS - YOUR LINK IS ALMOST READY</h2>
 
   <div class="countdown-wrapper">
-    <svg width="120" height="120">
+    <svg width="150" height="150">
       <defs>
-        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#00c8ff"/>
-          <stop offset="100%" stop-color="#92fe9d"/>
+        <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FFD700"/>
+          <stop offset="100%" stop-color="#FF8C00"/>
         </linearGradient>
       </defs>
-      <circle class="bg-ring" cx="60" cy="60" r="50"/>
-      <circle class="progress-ring" cx="60" cy="60" r="50"/>
+      <circle class="bg-ring" cx="75" cy="75" r="70"/>
+      <circle class="progress-ring" cx="75" cy="75" r="70"/>
     </svg>
     <div id="timer" class="circle-timer">3</div>
   </div>
 
-  <p>🔗 Redirecting Your Link<span class="dot-animate"></span></p>
+  <p>✨ Preparing VIP Link<span class="dot-animate"></span></p>
+  <div id="accessMsg" class="access-msg">✨ ACCESS GRANTED ✨</div>
 
   <script>
     function getQueryParam(param) {
@@ -120,8 +137,7 @@
     window.onload = function () {
       const timer = document.getElementById('timer');
       const ring = document.querySelector('.progress-ring');
-      const circumference = 2 * Math.PI * 50; // r=50
-
+      const circumference = 2 * Math.PI * 70; // r=70
       ring.style.strokeDasharray = circumference;
       ring.style.strokeDashoffset = 0;
 
@@ -129,16 +145,16 @@
         countdown--;
         timer.textContent = countdown;
 
-        // progress animate
         let offset = circumference - (circumference * (countdown / 3));
         ring.style.strokeDashoffset = offset;
 
         if (countdown <= 0) {
           clearInterval(interval);
-          timer.textContent = "→";
+          timer.textContent = "0";
+          document.getElementById('accessMsg').style.display = 'block';
           setTimeout(() => {
             if (redirectTo) window.location.href = redirectTo;
-          }, 800);
+          }, 1200);
         }
       }, 1000);
     };
