@@ -1,224 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VIP Offline Redirect</title>
-
-  <!-- Font: Offline version use korte paro -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at center, #111 0%, #000 100%);
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    h2 {
-      font-family: 'Cinzel Decorative', cursive;
-      font-size: 28px;
-      font-weight: 700;
-      background: linear-gradient(270deg, #FFD700, #FF8C00, #FFD700);
-      background-size: 400% 400%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: goldFlow 5s ease infinite;
-      text-shadow: 0 0 20px rgba(255,215,0,0.8);
-    }
-
-    @keyframes goldFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .countdown-wrapper {
-      position: relative;
-      width: 150px;
-      height: 150px;
-      margin: 20px auto;
-    }
-
-    .circle-timer {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 40px;
-      font-weight: bold;
-      color: #FFD700;
-      text-shadow: 0 0 15px gold, 0 0 30px #FF8C00;
-      animation: pulse 1s infinite;
-    }
-
-    @keyframes pulse {
-      0%,100% { transform: translate(-50%,-50%) scale(1); }
-      50% { transform: translate(-50%,-50%) scale(1.2); }
-    }
-
-    svg circle {
-      fill: none;
-      stroke-width: 10;
-      stroke-linecap: round;
-    }
-
-    .bg-ring {
-      stroke: rgba(255,215,0,0.15);
-    }
-
-    .progress-ring {
-      stroke: url(#gold-gradient);
-      stroke-dasharray: 440;
-      stroke-dashoffset: 0;
-      filter: drop-shadow(0 0 20px gold);
-      transition: stroke-dashoffset 1s linear;
-    }
-
-    p {
-      font-size: 18px;
-      font-weight: bold;
-      color: #aaa;
-      margin-top: 20px;
-    }
-
-    .dot-animate::after {
-      content: '';
-      display: inline-block;
-      width: 1em;
-      animation: dots 1.5s steps(3,end) infinite;
-    }
-
-    @keyframes dots {
-      0% { content: ''; }
-      33% { content: '.'; }
-      66% { content: '..'; }
-      100% { content: '...'; }
-    }
-
-    .access-msg {
-      font-size: 24px;
-      font-weight: bold;
-      color: #FFD700;
-      text-shadow: 0 0 15px gold, 0 0 35px #FF8C00;
-      display: none;
-      margin-top: 20px;
-      animation: glowBlink 1s infinite alternate;
-    }
-
-    @keyframes glowBlink {
-      from { opacity: 0.5; }
-      to { opacity: 1; }
-    }
-
-    /* Floating particles */
-    .particle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: gold;
-      opacity: 0.6;
-      box-shadow: 0 0 10px gold, 0 0 20px #FF8C00;
-      animation: floatUp 10s linear infinite;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(0.5); opacity:0;}
-      20% { opacity:1; }
-      100% { transform: translateY(-10vh) scale(1.2); opacity:0;}
-    }
-
-    /* Poster Box */
-    .poster-box {
-      background: rgba(255,255,255,0.05);
-      padding: 15px;
-      border-radius: 12px;
-      margin-top: 20px;
-      width: 250px;
-      box-shadow: 0 0 20px rgba(255,215,0,0.3);
-    }
-
-    .poster-box img {
-      width: 100%;
-      border-radius: 10px;
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Redirecting...</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+    color: white;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    min-height: 100vh;
+  }
+  .top-banner { width:100%; height:auto; display:block; }
+  .glass-box {
+    background: linear-gradient(270deg, #00c8ff, #92fe9d, #00c8ff, #92fe9d),
+                rgba(0,0,0,0.3);
+    background-blend-mode: multiply;
+    background-size: 800% 800%;
+    animation: gradientShift 15s ease infinite;
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 30px;
+    color: white;
+    max-width: 600px;
+    margin: 40px auto;
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .circle-timer {
+    width: 100px; height:100px;
+    border-radius:50%;
+    background: rgba(0,0,0,0.3);
+    display:flex; justify-content:center; align-items:center;
+    font-size:36px; font-weight:bold; margin:20px auto;
+  }
+  .dot-animate::after {
+    content: '';
+    display:inline-block;
+    width:1em;
+    animation:dots 1.5s steps(3,end) infinite;
+  }
+  @keyframes dots { 0%{content:'';} 33%{content:'.';} 66%{content:'..';} 100%{content:'...';} }
+  .poster-box {
+    background: rgba(255,255,255,0.05);
+    padding:12px; border-radius:12px;
+    width:90%; max-width:500px;
+    margin:20px auto;
+    box-shadow:0 0 15px rgba(0,198,255,0.3);
+  }
+  .button-image { width:100%; border-radius:10px; border:2px solid #000; margin-top:10px; }
+</style>
 </head>
 <body>
 
-  <h2>👑 VIP ACCESS - YOUR LINK IS ALMOST READY</h2>
+<img src="banner.jpg" alt="Banner" class="top-banner" />
 
-  <div class="countdown-wrapper">
-    <svg width="150" height="150">
-      <defs>
-        <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#FFD700"/>
-          <stop offset="100%" stop-color="#FF8C00"/>
-        </linearGradient>
-      </defs>
-      <circle class="bg-ring" cx="75" cy="75" r="70"/>
-      <circle class="progress-ring" cx="75" cy="75" r="70"/>
-    </svg>
-    <div id="timer" class="circle-timer">3</div>
-  </div>
+<div class="glass-box">
+  <h2>YOUR LINK IS ALMOST READY.</h2>
+  <div id="timer" class="circle-timer">3</div>
+  <p style="font-weight:bold; color:#d9d9d9; font-size:20px;">
+    🔗 Redirecting Your Link<span class="dot-animate"></span>
+  </p>
+</div>
 
-  <p>✨ Preparing VIP Link<span class="dot-animate"></span></p>
-  <div id="accessMsg" class="access-msg">✨ ACCESS GRANTED ✨</div>
+<div class="poster-box">
+  <p class="caption">🔥 Demon Slayer (All Seasons) Hindi Dubbed 🍁<br>🔰 Click Image & Download! 🔰</p>
+  <a href="final_page.html" target="_blank">
+    <img src="poster.jpg" alt="Watch & Download" class="button-image"/>
+  </a>
+</div>
 
-  <!-- Poster / Optional Button -->
-  <div class="poster-box">
-    <img src="poster.jpg" alt="Poster">
-    <p>Click Image to Open</p>
-  </div>
+<script>
+let countdown = 3;
+const timer = document.getElementById('timer');
+let redirectTo = "final_page.html"; // local file
 
-  <script>
-    // Create floating particles
-    for (let i=0;i<15;i++){
-      let particle = document.createElement('div');
-      particle.className='particle';
-      particle.style.left=Math.random()*100+'vw';
-      particle.style.animationDuration=(6+Math.random()*6)+'s';
-      particle.style.animationDelay=(Math.random()*5)+'s';
-      document.body.appendChild(particle);
-    }
-
-    // Countdown + Redirect
-    let countdown=3;
-    let redirectTo="final_page.html"; // Local file or external link
-
-    window.onload = function(){
-      const timer=document.getElementById('timer');
-      const ring=document.querySelector('.progress-ring');
-      const circumference=2*Math.PI*70;
-      ring.style.strokeDasharray=circumference;
-      ring.style.strokeDashoffset=0;
-
-      const interval=setInterval(()=>{
-        countdown--;
-        timer.textContent=countdown;
-        let offset=circumference-(circumference*(countdown/3));
-        ring.style.strokeDashoffset=offset;
-
-        if(countdown<=0){
-          clearInterval(interval);
-          timer.textContent="0";
-          document.getElementById('accessMsg').style.display='block';
-          setTimeout(()=>{
-            window.location.href=redirectTo;
-          },1500);
-        }
-      },1000);
-    }
-  </script>
+const interval = setInterval(() => {
+  countdown--;
+  timer.textContent = countdown;
+  if(countdown <= 0){
+    clearInterval(interval);
+    window.location.href = redirectTo;
+  }
+}, 1000);
+</script>
 
 </body>
 </html>
