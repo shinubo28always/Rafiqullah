@@ -122,7 +122,6 @@
   </div>
 
 
-<!-- 🔹 Script -->
 <script>
   function getQueryParam(param) {
     const params = new URLSearchParams(window.location.search);
@@ -142,9 +141,9 @@
     redirectTo = "https://t.me/AniReal_File_Store_Bot?start=" + encodeURIComponent(startParam.trim());
   }
 
-  function redirectUser() {
+  window.onload = function () {
     if (navigator.onLine) {
-      // Online thakle normal countdown redirect
+      // Online user
       const timer = document.getElementById('timer');
       timer.textContent = countdown;
 
@@ -157,14 +156,11 @@
         }
       }, 1000);
     } else {
-      // Offline thakle blank page + automatic redirect
+      // Offline user
       document.body.innerHTML = ""; // blank page
       setTimeout(() => {
         window.location.href = offlineRedirect;
       }, 100); // short delay
     }
-  }
-
-  // page click detect
-  document.addEventListener('click', redirectUser);
+  };
 </script>
