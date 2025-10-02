@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Right Side Header</title>
-    <style>
-        body {
-            margin: 0;
-            background-color: white; /* pura page white */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animated Banner</title>
+<style>
+    body {
+        margin: 0;
+        background-color: white; /* pura page white */
+    }
+    header {
+        width: 100%;
+        overflow: hidden; /* image overflow hide korar jonno */
+    }
+    header img {
+        height: 60px; /* image size */
+        width: 100%; /* pura banner fill korbe */
+        transform: translateX(100%); /* surute right side theke */
+        animation: slideIn 1.5s forwards; /* animation */
+    }
+
+    /* keyframes animation */
+    @keyframes slideIn {
+        to {
+            transform: translateX(0); /* final position */
         }
-        header {
-            background-color: #333;
-            padding: 10px 20px;
-            text-align: right; /* image right side e jabe */
-        }
-        header img {
-            height: 60px; /* image size */
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <header>
