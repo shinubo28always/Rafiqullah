@@ -358,9 +358,9 @@
     });
   }
   function nextSlide() {
-    if (searchInput.style.display === "inline-block") return;
-    currentSlide = (currentSlide + 1) % slides.length;
-    showSlide(currentSlide);
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}
   }
   showSlide(currentSlide);
   setInterval(nextSlide, 3000);
