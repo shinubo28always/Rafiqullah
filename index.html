@@ -20,37 +20,63 @@
     }
 
     /* Navbar */
-    .navbar{
-      background:var(--nav-color);
-      padding: 12px 20px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      box-shadow:0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .navbar-left, .navbar-right{display:flex;align-items:center;gap:15px;}
-    .menu-icon{font-size:22px;cursor:pointer}
-    .title{font-weight:bold;font-size:20px;white-space:nowrap}
-    .search-box{
-      display:none;
-      padding:5px 10px;
-      border-radius:20px;
-      border:1px solid #555;
-      background:#2b2b2b;
-      color:#fff;
-      outline:none;
-    }
-    .search-toggle-icon{cursor:pointer;font-size:18px}
+.navbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: var(--nav-color);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-    /* Notification icon */
-    .notification-icon{position:relative; display:inline-block; text-decoration:none; color:inherit; cursor:pointer}
-    #notifBadge{
-      position:absolute; top:-5px; right:-5px;
-      background:red; color:#fff; font-size:12px;
-      padding:2px 6px; border-radius:50%; display:none;
-    }
+/* left icon */
+.menu-icon {
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+/* ✅ Title perfectly centered */
+.title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+  font-size: 20px;
+  white-space: nowrap;
+  color: var(--text-color);
+}
+
+/* right icons */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.search-toggle-icon {
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text-color);
+}
+.notification-icon {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+#notifBadge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  display: none;
+}
 
     main{padding:20px; text-align:center}
 
