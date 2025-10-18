@@ -37,7 +37,7 @@
   color: var(--text-color);
 }
 
-/* ✅ Title perfectly centered */
+/* title perfectly centered */
 .title {
   position: absolute;
   left: 50%;
@@ -46,20 +46,38 @@
   font-size: 20px;
   white-space: nowrap;
   color: var(--text-color);
+  transition: all 0.3s ease;
 }
 
-/* right icons */
+/* right section */
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
+/* search icon */
 .search-toggle-icon {
   cursor: pointer;
   font-size: 18px;
   color: var(--text-color);
 }
+
+/* hidden search box */
+.search-box {
+  display: none;
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: 1px solid #555;
+  background: #2b2b2b;
+  color: #fff;
+  outline: none;
+  width: 160px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+/* notification icon */
 .notification-icon {
   position: relative;
   display: inline-block;
