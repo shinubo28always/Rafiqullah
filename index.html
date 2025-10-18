@@ -327,7 +327,8 @@
 
   <footer>
     <p>&copy; 2025 AniReal. All rights reserved.</p>
-  </footer>  
+  </footer> 
+
 <script>
   // === Select Elements ===
   const slides = document.querySelectorAll(".slide");
@@ -422,6 +423,100 @@
 
     // Hide everything except search result section
     sliderContainer.style.display = "none";
+<script>
+  // === Select Elements ===
+  const slides = document.querySelectorAll(".slide");
+  const sliderContainer = document.getElementById("slider");
+  const searchInput = document.getElementById("searchExpanded");
+  const mainTitle = document.getElementById("mainTitle");
+  const searchIcon = document.querySelector(".search-toggle-icon");
+  const welcomeMsg = document.querySelector("main");
+  const topHits = document.getElementById("top-hits");
+  const newReleases = document.getElementById("new-releases");
+  const allCards = document.querySelectorAll(".anime-card");
+
+  // === Create Search Result Section ===
+  const searchResults = document.createElement("section");
+  searchResults.id = "search-results";
+  searchResults.className = "anime-section";
+  searchResults.style.display = "none";
+  searchResults.innerHTML = `<div class="anime-grid" id="search-grid"></div>`;
+  document.body.insertBefore(searchResults, document.querySelector("footer"));
+
+  const searchGrid = document.getElementById("search-grid");
+
+  // === Slider ===
+  let currentSlide = 0;
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === index);
+    });
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  showSlide(currentSlide);
+  setInterval(nextSlide, 3000);
+
+  // === Dropdown ===
+  function toggleDropdown() {
+    const menu = document.getElementById("dropdown");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+
+  // === Outside click handler ===
+  document.addEventListener("click", function (event) {
+    const dropdown = document.getElementById("dropdown");
+    const menuIcon = document.querySelector(".menu-icon");
+    if (!dropdown.contains(event.target) && !menuIcon.contains(event.target)) {
+      dropdown.style.display = "none";
+    }
+
+    if (!searchInput.contains(event.target) && !searchIcon.contains(event.target)) {
+      searchInput.style.display = "none";
+      mainTitle.style.display = "block";
+      resetPageView();
+    }
+  });
+
+  // === Toggle Search Bar ===
+  function toggleSearch() {
+    if (searchInput.style.display === "inline-block") {
+      searchInput.style.display = "none";
+      mainTitle.style.display = "block";
+      resetPageView();
+    } else {
+      searchInput.style.display = "inline-block";
+      searchInput.focus();
+      mainTitle.style.display = "none";
+    }
+  }
+
+  // === Reset full layout ===
+  function resetPageView() {
+    sliderContainer.style.display = "block"; // Slider always visible
+    welcomeMsg.style.display = "block";
+    topHits.style.display = "block";
+    newReleases.style.display = "block";
+    searchResults.style.display = "none";
+    searchGrid.innerHTML = "";
+  }
+
+  // === Filter Search ===
+  function filterAnime(query) {
+    const lowerQuery = query.toLowerCase().trim();
+    searchGrid.innerHTML = "";
+
+    if (lowerQuery === "") {
+      searchResults.style.display = "none";
+      mainTitle.style.display = "none";
+      return;
+    }
+
+    // Hide main sections except slider
     welcomeMsg.style.display = "none";
     topHits.style.display = "none";
     newReleases.style.display = "none";
