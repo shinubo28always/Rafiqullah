@@ -429,10 +429,26 @@ footer{ text-align:center; padding:18px; color:#9a9a9a; font-size:13px }
       searchBox.style.display = 'inline-block';
       searchBox.focus();
       mainTitle.style.display = 'none';
-    }
-  });
+<script>
+  /* ====== Navbar Title + Search Toggle ====== */
+  const searchBox = document.getElementById('searchExpanded');
+  const searchIcon = document.querySelector('.search-toggle-icon');
+  const mainTitle = document.getElementById('mainTitle');
 
-  /* ====== Search Functionality (if you have anime cards) ====== */
+  // toggle between title and search box
+  function toggleSearch() {
+    if (searchBox.style.display === 'inline-block') {
+      searchBox.style.display = 'none';
+      mainTitle.style.display = 'block';
+      resetPageView();
+    } else {
+      searchBox.style.display = 'inline-block';
+      searchBox.focus();
+      mainTitle.style.display = 'none';
+    }
+  }
+
+  /* ====== Search + Anime Filtering ====== */
   const slider = document.getElementById('slider');
   const topHits = document.getElementById('top-hits');
   const newReleases = document.getElementById('new-releases');
@@ -484,6 +500,7 @@ footer{ text-align:center; padding:18px; color:#9a9a9a; font-size:13px }
     if (!found && notFoundMsg) notFoundMsg.style.display = 'block';
   }
 
+  // events
   if (searchBox) {
     searchBox.addEventListener('input', () => filterAnime(searchBox.value));
     searchBox.addEventListener('keydown', e => {
@@ -505,6 +522,7 @@ footer{ text-align:center; padding:18px; color:#9a9a9a; font-size:13px }
       badge.style.display = 'none';
     }
   })();
+</script>
 </script>
 </body>
 </html>
