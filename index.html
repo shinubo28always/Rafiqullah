@@ -243,17 +243,18 @@
   animation: fadeIn 0.6s ease-in-out;
 }
 
-/* === Search Result Grid === */
+/* 2-column responsive grid */
 #search-results .anime-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Mobile: 2 cards per row */
-  gap: 15px;
-  justify-items: stretch; /* Cards stretch to fill column */
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  justify-items: center;
 }
 
 #search-results .anime-card {
-  width: 100%;       /* Fill column width */
-  height: auto;      /* Natural height (mismatch possible) */
+  width: 100%;
+  max-width: 220px;
+  height: auto;
   display: flex;
   flex-direction: column;
   background-color: var(--nav-color);
@@ -269,8 +270,8 @@
 
 #search-results .anime-card img {
   width: 100%;
-  height: auto;       /* Auto height for natural mismatch */
-  object-fit: cover;  /* Cover column space nicely */
+  height: 230px;
+  object-fit: cover;
 }
 
 #search-results .anime-card h3 {
@@ -309,60 +310,31 @@
     transform: translateY(0);
   }
 }
-
-/* === Responsive for Tablet/Desktop === */
-@media (min-width: 768px) {
-  #search-results .anime-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    justify-items: center;
-  }
-}
 </style>
 </head>
 <body class="dark">
 
-<!-- Navbar -->
-<div class="navbar" id="navbar">
-  <div class="navbar-left">
-    <span class="menu-icon" onclick="toggleDropdown()">☰</span>
-    <div class="dropdown" id="dropdown">
-      <!-- Dark Mode Button Removed -->
+  <!-- Navbar -->
+  <div class="navbar" id="navbar">
+    <div class="navbar-left">
+      <span class="menu-icon" onclick="toggleDropdown()">☰</span>
+      <div class="dropdown" id="dropdown">
+        <!-- Dark Mode Button Removed -->
+      </div>
+    </div>
+
+    <div class="title" id="mainTitle">AniReal - Anime Zone</div>
+
+    <input type="text" id="searchExpanded" class="search-box" placeholder="Search Anime..." autocomplete="off" />
+
+    <div class="navbar-right">
+      <span class="search-toggle-icon" onclick="toggleSearch()">🔍</span>
+      <span class="notification-icon">🔔</span>
     </div>
   </div>
 
-  <div class="title" id="mainTitle">AniReal - Anime Zone</div>
-
-  <!-- Search Box -->
-  <input type="text" id="searchExpanded" class="search-box" placeholder="Search Anime..." autocomplete="off" />
-
-  <div class="navbar-right">
-    <!-- Search Icon -->
-    <span class="search-toggle-icon" onclick="toggleSearch()" style="cursor:pointer;">🔍</span>
-
-    <!-- Notification Icon with Badge -->
-    <a href="Notifications/notification.html" class="notification-icon"
-       style="position: relative; display: inline-block; color: inherit; text-decoration: none; cursor: pointer; margin-left: 15px;">
-      🔔
-      <span id="notifBadge" 
-            style="position: absolute;
-                   top: -5px;
-                   right: -5px;
-                   background: red;
-                   color: #fff;
-                   font-size: 12px;
-                   padding: 2px 6px;
-                   border-radius: 50%;
-                   display: none;">
-      </span>
-    </a>
-  </div>
-</div>
-
-<!-- Include Notification Script -->
-<script src="Notifications/notification.js"></script>
   
 <!-- Slider -->
-
 <div class="slider" id="slider">
   <a href="https://t.me/One_Piece_in_Hindi_Dub_Original" target="_blank" class="slide active">
     <img src="https://photo.chelpbot.me/AgACAgUAAyEFAASaAAEylQADEWiU1tgqIp1IJb6Nuu6PYVEwX6pfAAKXwzEbiLbhV1Qd9ShGfhLgAQADAgADeQADNgQ/photo.jpg" alt="One Piece" />
@@ -388,7 +360,7 @@
     </div>
   </a>
 
-  <a href="https://t.me/Demon_Slayer_Hindi_Dub05" target="_blank" class="slide">
+<a href="https://t.me/Demon_Slayer_Hindi_Dub05" target="_blank" class="slide">
     <img src="https://photo.chelpbot.me/AgACAgUAAxkBVhelmmiU3ZF_ytS68JPcstgBzUKdXqonAAI5yTEbGFqhVC7yka4lms_GAQADAgADeAADNgQ/photo.jpg" alt="Demon Slayer" />
     <div class="slide-text">
       <strong>Demon Slayer</strong>
@@ -406,11 +378,11 @@
     <h2>🔥 Top Hits Anime</h2>
     <div class="anime-grid">
       <a href="#" class="anime-card" data-title="dan da dan">
-        <img src="https://photo.chelpbot.me/AgACAgUAAxkBXBTyk2jzhTzE8ghcucHBSJShTpoqTwv6AAJ2C2sb3VehV0iyni70-V4mAQADAgADeQADNgQ/photo.jpg" alt="Dan Da Dan" />
-        <h3>Dan Da Dan Season 2</h3><p>Episodes: 12</p>
+        <img src="https://envs.sh/IlB.jpg" alt="Dan Da Dan" />
+        <h3>Dan Da Dan</h3><p>Episodes: 12</p>
       </a>
       <a href="#" class="anime-card" data-title="dr. stone">
-        <img src="https://photo.chelpbot.me/AgACAgUAAxkBXBUI-2jzhq0o81hpuYMLoME7AgLxAT9WAAJ9C2sb3VehV9Xw-JLl0Z-WAQADAgADdwADNgQ/photo.jpg" alt="Dr. Stone" />
+        <img src="https://envs.sh/IlI.jpg" alt="Dr. Stone" />
         <h3>Dr. Stone</h3><p>Episodes: 25+</p>
       </a>
       <a href="#" class="anime-card" data-title="gachiakuta">
@@ -455,7 +427,7 @@
   const newReleases = document.getElementById("new-releases");
   const allCards = document.querySelectorAll(".anime-card");
 
-// === Create Search Result Section ===
+  // === Create Search Result Section ===
   const searchResults = document.createElement("section");
   searchResults.id = "search-results";
   searchResults.className = "anime-section";
@@ -500,7 +472,7 @@
     menu.style.display = menu.style.display === "block" ? "none" : "block";
   }
 
-  // === Outside click handler ===
+// === Outside click handler ===
  document.addEventListener("click", function (event) {
   const dropdown = document.getElementById("dropdown");
   const menuIcon = document.querySelector(".menu-icon");
@@ -581,7 +553,7 @@
     notFoundMsg.style.display = found ? "none" : "block";
   }
 
-// === Input Event ===
+  // === Input Event ===
   searchInput.addEventListener("input", () => filterAnime(searchInput.value));
   searchInput.addEventListener("keydown", e => {
     if (e.key === "Enter") filterAnime(searchInput.value);
