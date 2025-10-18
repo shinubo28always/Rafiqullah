@@ -415,48 +415,107 @@ footer{ text-align:center; padding:18px; color:#9a9a9a; font-size:13px }
       if (slider) slider.style.display = 'none';
       if (topHits) topHits.style.display = 'none';
       if (newReleases) newReleases.style.display = 'none';
+<script>
+  /* ====== Search + UI logic ====== */
+  const searchInput = document.getElementById('searchExpanded') || document.getElementById('searchBox');
+  const searchIcon = document.querySelector('.search-toggle-icon');
+  const slider = document.getElementById('slider');
+  const mainTitle = document.getElementById('mainTitle');
+  const topHits = document.getElementById('top-hits');
+  const newReleases = document.getElementById('new-releases');
+  const searchResults = document.getElementById('search-results');
+  const searchGrid = document.getElementById('search-grid');
+  const notFoundMsg = document.getElementById('notFoundMsg');
 
-      const all = getAllCards();
-      let found = false;
-      all.forEach(card => {
-        const title = (card.getAttribute('data-title') || '').toLowerCase();
-        if (title.includes(q)){
-          // clone to keep original lists intact
-          searchGrid.appendChild(card.cloneNode(true));
-          found = true;
-        }
-      });
+  // === CARD FETCHER ===
+  function getAllCards() {
+    return Array.from(document.querySelectorAll('.anime-card'));
+  }
 
-      searchResults.style.display = 'block';
-      if (!found){
-        notFoundMsg.style.display = 'block';
-      }
+  // === TOGGLE SEARCH / TITLE (center position switch) ===
+  function toggleSearch() {
+    if (searchInput.style.display === 'inline-block') {
+      searchInput.style.display = 'none';
+      mainTitle.style.display = 'block';
+      resetPageView();
+    } else {
+      searchInput.style.display = 'inline-block';
+      searchInput.focus();
+      mainTitle.style.display = 'none';
+    }
+  }
+
+  // === RESET PAGE VIEW ===
+  function resetPageView() {
+    if (slider) slider.style.display = 'block';
+    if (topHits) topHits.style.display = 'block';
+    if (newReleases) newReleases.style.display = 'block';
+    if (searchResults) searchResults.style.display = 'none';
+    if (searchGrid) searchGrid.innerHTML = '';
+    if (notFoundMsg) notFoundMsg.style.display = 'none';
+  }
+
+  // === FILTER ANIME ===
+  function filterAnime(query) {
+    const q = String(query || '').toLowerCase().trim();
+    if (!searchGrid || !searchResults) return;
+
+    searchGrid.innerHTML = '';
+    notFoundMsg.style.display = 'none';
+
+    if (!q) {
+      resetPageView();
+      return;
     }
 
-    // events
-    searchInput.addEventListener('input', ()=> filterAnime(searchInput.value));
-    searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') filterAnime(searchInput.value); });
+    // hide main sections
+    if (slider) slider.style.display = 'none';
+    if (topHits) topHits.style.display = 'none';
+    if (newReleases) newReleases.style.display = 'none';
 
-    // initial reset
-    resetPageView();
+    const all = getAllCards();
+    let found = false;
 
-    /* ====== OPTIONAL: notification badge (read from a simple array in a file) ======
-       If you use Notifications/notificationsData.js on your server which sets `window.notifications`,
-       uncomment this part to auto-update badge. Otherwise hide badge by default.
-    */
-    (function initBadge(){
-      const badge = document.getElementById('notifBadge');
-      if (!badge) return;
-      // If you include a notifications script that sets window.notifications = [...],
-      // update badge based on that array length.
-      if (window.notifications && Array.isArray(window.notifications)){
-        if (window.notifications.length === 0) badge.style.display = 'none';
-        else { badge.style.display = 'inline-block'; badge.textContent = window.notifications.length; }
-      } else {
-        // no external data -> hide badge
-        badge.style.display = 'none';
+    all.forEach(card => {
+      const title = (card.getAttribute('data-title') || '').toLowerCase();
+      if (title.includes(q)) {
+        searchGrid.appendChild(card.cloneNode(true));
+        found = true;
       }
-    })();
-  </script>
+    });
+
+    searchResults.style.display = 'block';
+    if (!found) {
+      notFoundMsg.style.display = 'block';
+    }
+  }
+
+  // === EVENT LISTENERS ===
+  if (searchInput) {
+    searchInput.addEventListener('input', () => filterAnime(searchInput.value));
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') filterAnime(searchInput.value);
+    });
+  }
+
+  // === INITIAL RESET ===
+  resetPageView();
+
+  // === NOTIFICATION BADGE (optional) ===
+  (function initBadge() {
+    const badge = document.getElementById('notifBadge');
+    if (!badge) return;
+
+    if (window.notifications && Array.isArray(window.notifications)) {
+      if (window.notifications.length === 0) badge.style.display = 'none';
+      else {
+        badge.style.display = 'inline-block';
+        badge.textContent = window.notifications.length;
+      }
+    } else {
+      badge.style.display = 'none';
+    }
+  })();
+</script>
 </body>
-  </html>
+</html>
