@@ -1,142 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dark/Light Toggle Banner</title>
-<style>
-    body {
-        margin: 0;
-        background-color: white;
-        transition: background-color 0.5s;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AniReal - Anime Zone</title>
+  <style>
+    :root{
+      --bg-color:#121212;
+      --text-color:#ffffff;
+      --nav-color:#1e1e1e;
     }
-    header {
-        width: 100%;
-        position: relative;
-        overflow: hidden;
-    }
-    header img {
-        height: 60px;
-        width: 100%;
-        transform: translateX(100%);
-        animation: slideIn 1.5s forwards;
-    }
-    @keyframes slideIn {
-        to { transform: translateX(0); }
+    /* Reset / base */
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:var(--bg-color);
+      color:var(--text-color);
     }
 
-    /* Hamburger icon */
-    .hamburger {
-        position: absolute;
-        top: 50%;
-        left: 20px;
-        transform: translateY(-50%);
-        width: 30px;
-        height: 25px;
-        cursor: pointer;
-        z-index: 2;
-        opacity: 0;
-        animation: showHamburger 0.5s forwards;
-        animation-delay: 1.5s; /* after banner animation */
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+    /* Navbar */
+    .navbar{
+      background:var(--nav-color);
+      padding: 12px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      box-shadow:0 2px 4px rgba(0,0,0,0.1);
     }
-    .hamburger div {
-        height: 3px;
-        background-color: black;
-        border-radius: 2px;
-        transition: all 0.4s;
+    
+    .navbar-left, .navbar-right{display:flex;align-items:center;gap:15px;}
+    .menu-icon{font-size:22px;cursor:pointer}
+    .title{font-weight:bold;font-size:20px;white-space:nowrap}
+    .search-box{
+      display:none;
+      padding:5px 10px;
+      border-radius:20px;
+      border:1px solid #555;
+      background:#2b2b2b;
+      color:#fff;
+      outline:none;
+    }
+    .search-toggle-icon{cursor:pointer;font-size:18px}
+
+    /* Notification icon */
+    .notification-icon{position:relative; display:inline-block; text-decoration:none; color:inherit; cursor:pointer}
+    #notifBadge{
+      position:absolute; top:-5px; right:-5px;
+      background:red; color:#fff; font-size:12px;
+      padding:2px 6px; border-radius:50%; display:none;
     }
 
-    @keyframes showHamburger {
-        to { opacity: 1; }
+    main{padding:20px; text-align:center}
+
+    /* Sections */
+    .anime-section{margin:22px 12px}
+    .anime-section h2{
+      font-size:20px; margin:8px 0 12px;
+      padding-left:10px; border-left:5px solid #ff4757;
+      user-select:none;
     }
 
-    /* Dark mode */
-    body.dark {
-        background-color: #121212;
+    /* === Poster card styles (960:1357) === */
+    .anime-card{
+      position:relative;
+      display:block;
+      width:100%;
+      max-width:220px;
+      aspect-ratio:960 / 1357; /* poster ratio */
+      border-radius:12px;
+      overflow:hidden;
+      background:var(--nav-color);
+      box-shadow:0 4px 10px rgba(0,0,0,0.35);
+      transition:transform .22s ease, box-shadow .22s ease;
+      text-decoration:none;
+      color:var(--text-color);
+      flex-shrink:0;
     }
-    body.dark .hamburger div {
-        background-color: white;
+    .anime-card:hover{ transform:scale(1.03); box-shadow:0 10px 28px rgba(0,0,0,0.6); }
+
+    .anime-card img{
+      width:100%; height:100%; object-fit:cover; object-position:center; display:block;
     }
 
-    /* Hamburger animation to X */
-    .hamburger.active div:nth-child(1) {
-        transform: rotate(45deg) translate(5px, 5px);
+    /* bottom gradient */
+    .anime-card::after{
+      content:"";
+      position:absolute; left:0; bottom:0; width:100%; height:45%;
+      background:linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0));
+      z-index:1; pointer-events:none;
     }
-    .hamburger.active div:nth-child(2) {
-        opacity: 0;
+
+    .anime-info{
+      position:absolute; left:12px; right:12px; bottom:12px; z-index:2;
+      display:flex; flex-direction:column; gap:4px;
     }
-    .hamburger.active div:nth-child(3) {
-        transform: rotate(-45deg) translate(6px, -6px);
+    .anime-info h3{
+      margin:0; font-size:15px; font-weight:700; color:#FFD700;
+      text-shadow:0 1px 4px rgba(0,0,0,0.6); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     }
-</style>
+    .anime-info p{ margin:0; font-size:13px; color:#e6e6e6; opacity:.95 }
+
+    /* Top lists: horizontal scroll of posters */
+    .anime-grid.horizontal{ display:flex; gap:14px; overflow-x:auto; padding-bottom:8px; }
+    .anime-grid.horizontal .anime-card{ flex:0 0 140px; max-width:220px; aspect-ratio:960 / 1357; }
+
+    /* Search results grid: mobile 2-per-row, desktop auto-fill */
+    #search-results .anime-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr); /* 2 columns on small screens */
+      gap:12px;
+/* Navbar */
+.navbar{
+  background:var(--nav-color);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 18px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.12);
+  position:relative;
+}
+.navbar-left, .navbar-right{display:flex;align-items:center;gap:12px;}
+.menu-icon{font-size:20px;cursor:pointer}
+
+/* ✅ Title centered */
+.title{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  font-weight:700;
+  font-size:18px;
+  white-space:nowrap;
+  color:var(--text-color);
+}
+
+.search-box{
+  display:none;
+  padding:6px 10px;
+  border-radius:20px;
+  border:1px solid #444;
+  background:#262626;
+  color:#fff;
+  outline:none;
+}
+.search-toggle-icon{cursor:pointer;font-size:18px}
+
+/* Notification icon */
+.notification-icon{position:relative; display:inline-block; text-decoration:none; color:inherit; cursor:pointer}
+#notifBadge{
+  position:absolute; top:-6px; right:-6px;
+  background:red; color:#fff; font-size:12px;
+  padding:2px 6px; border-radius:999px; display:none;
+}
+
+main{padding:18px; text-align:center}
+
+/* Sections */
+.anime-section{margin:22px 12px}
+.anime-section h2{
+  font-size:20px; margin:8px 0 12px;
+  padding-left:10px; border-left:5px solid #ff4757;
+  user-select:none;
+}
+
+/* === Poster card styles (960:1357) === */
+.anime-card{
+  position:relative;
+  display:block;
+  width:100%;
+  max-width:220px;
+  aspect-ratio:960 / 1357; /* poster ratio */
+  border-radius:12px;
+  overflow:hidden;
+  background:var(--nav-color);
+  box-shadow:0 4px 10px rgba(0,0,0,0.35);
+  transition:transform .22s ease, box-shadow .22s ease;
+  text-decoration:none;
+  color:var(--text-color);
+  flex-shrink:0;
+}
+.anime-card:hover{ transform:scale(1.03); box-shadow:0 10px 28px rgba(0,0,0,0.6); }
+
+.anime-card img{
+  width:100%; height:100%; object-fit:cover; object-position:center; display:block;
+}
+
+/* bottom gradient */
+.anime-card::after{
+  content:"";
+  position:absolute; left:0; bottom:0; width:100%; height:45%;
+  background:linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0));
+  z-index:1; pointer-events:none;
+}
+
+.anime-info{
+  position:absolute; left:12px; right:12px; bottom:12px; z-index:2;
+  display:flex; flex-direction:column; gap:4px;
+}
+.anime-info h3{
+  margin:0; font-size:15px; font-weight:700; color:#FFD700;
+  text-shadow:0 1px 4px rgba(0,0,0,0.6); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.anime-info p{ margin:0; font-size:13px; color:#e6e6e6; opacity:.95 }
+
+/* Top lists: horizontal scroll of posters */
+.anime-grid.horizontal{ display:flex; gap:14px; overflow-x:auto; padding-bottom:8px; }
+.anime-grid.horizontal .anime-card{ flex:0 0 140px; max-width:220px; aspect-ratio:960 / 1357; }
+
+/* Search results grid: mobile 2-per-row, desktop auto-fill */
+#search-results .anime-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  justify-items:center;
+  align-items:start;
+  margin-top:8px;
+}
+@media(min-width:768px){
+  #search-results .anime-grid{
+    grid-template-columns:repeat(auto-fill, minmax(160px,1fr));
+    gap:18px;
+  }
+}
+
+/* not found */
+#notFoundMsg{ text-align:center; color:gray; margin-top:20px; font-size:16px }
+
+footer{ text-align:center; padding:18px; color:#9a9a9a; font-size:13px }
+
+/* small tweaks for very small phones */
+@media(max-width:360px){
+  .anime-card{ max-width:180px }
+  .anime-info h3{ font-size:14px }
+  .anime-info p{ font-size:12px }
+}
+  </style>
 </head>
 <body>
-<header>
-    <img src="https://photo.chelpbot.me/AgACAgUAAxkBVfy46WiS77LTAvf6YG_2lFG2BvLYye6PAAIwxjEbKg-ZVHtyDnfsWI1NAQADAgADdwADNgQ/photo.jpg" alt="Banner">
 
-    <!-- Hamburger -->
-    <div class="hamburger" onclick="toggleDark(this)">
-        <div></div>
-        <div></div>
-        <div></div>
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="navbar-left">
+      <span class="menu-icon">☰</span>
+      <div class="title" id="mainTitle">AniReal - Anime Zone</div>
     </div>
-</header>
 
-<script>
-function toggleDark(el) {
-    document.body.classList.toggle('dark');
-    el.classList.toggle('active'); // animate hamburger to X
-}
-</script>
-/* ----------------------------------------------
- * Generated by Animista on 2025-10-3 1:18:47
- * Licensed under FreeBSD License.
- * See http://animista.net/license for more info. 
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
+    <input type="text" id="searchExpanded" class="search-box" placeholder="Search Anime..." autocomplete="off" />
 
-/**
- * ----------------------------------------
- * animation focus-in-expand-fwd
- * ----------------------------------------
- */
-@-webkit-keyframes focus-in-expand-fwd {
-  0% {
-    letter-spacing: -0.5em;
-    -webkit-transform: translateZ(-800px);
-            transform: translateZ(-800px);
-    -webkit-filter: blur(12px);
-            filter: blur(12px);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-    -webkit-filter: blur(0);
-            filter: blur(0);
-    opacity: 1;
-  }
-}
-@keyframes focus-in-expand-fwd {
-  0% {
-    letter-spacing: -0.5em;
-    -webkit-transform: translateZ(-800px);
-            transform: translateZ(-800px);
-    -webkit-filter: blur(12px);
-            filter: blur(12px);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-    -webkit-filter: blur(0);
-            filter: blur(0);
-    opacity: 1;
-  }
-}
+    <div class="navbar-right">
+      <span class="search-toggle-icon" onclick="toggleSearch()">🔍</span>
 
+      <!-- notification (example badge) -->
+      <a class="notification-icon" href="Notifications/notification.html">🔔
+        <span id="notifBadge">0</span>
+      </a>
+    </div>
+  </div>
+
+  <main>
+    <p>Welcome! Watch All Hindi Dub Animes Here!</p>
+  </main>
+
+  <!-- Top Hits (horizontal) -->
+  <section id="top-hits" class="anime-section">
+    <h2>🔥 Top Hits Anime</h2>
+    <div class="anime-grid horizontal">
+      <a href="#" class="anime-card" data-title="dan da dan">
+        <img src="https://photo.chelpbot.me/AgACAgUAAxkBXBTyk2jzhTzE8ghcucHBSJShTpoqTwv6AAJ2C2sb3VehV0iyni70-V4mAQADAgADeQADNgQ/photo.jpg" alt="Dan Da Dan">
+        <div class="anime-info"><h3>Dan Da Dan</h3><p>Episodes: 12</p></div>
+      </a>
+
+      <a href="#" class="anime-card" data-title="dr stone">
+        <img src="https://photo.chelpbot.me/AgACAgUAAxkBXBUI-2jzhq0o81hpuYMLoME7AgLxAT9WAAJ9C2sb3VehV9Xw-JLl0Z-WAQADAgADdwADNgQ/photo.jpg" alt="Dr Stone">
+        <div class="anime-info"><h3>Dr. Stone</h3><p>Episodes: 25+</p></div>
+      </a>
+
+      <a href="#" class="anime-card" data-title="gachiakuta">
+        <img src="https://envs.sh/BNQ.jpg" alt="Gachiakuta">
+        <div class="anime-info"><h3>Gachiakuta</h3><p>Episodes: 12</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- New Releases (horizontal) -->
+  <section id="new-releases" class="anime-section">
+    <h2>✨ New Releases</h2>
+    <div class="anime-grid horizontal">
+      <a href="#" class="anime-card" data-title="solo leveling">
+        <img src="https://envs.sh/NEW1.jpg" alt="Solo Leveling">
+        <div class="anime-info"><h3>Solo Leveling</h3><p>Episodes: 10</p></div>
+      </a>
+
+      <a href="#" class="anime-card" data-title="kaiju no.8">
+        <img src="https://envs.sh/NEW2.jpg" alt="Kaiju No.8">
+        <div class="anime-info"><h3>Kaiju No.8</h3><p>Episodes: 8</p></div>
+      </a>
+
+      <a href="#" class="anime-card" data-title="wind breaker">
+        <img src="https://envs.sh/NEW3.jpg" alt="Wind Breaker">
+        <div class="anime-info"><h3>Wind Breaker</h3><p>Episodes: 5</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Search Result Section (hidden until search) -->
+  <section id="search-results" class="anime-section" style="display:none;">
+    <h2>🔍 Search Results</h2>
+    <div class="anime-grid" id="search-grid"></div>
+    <p id="notFoundMsg" style="display:none;">😢 No anime matched your search.</p>
+  </section>
+
+  <footer>&copy; 2025 AniReal. All rights reserved.</footer>
+
+  <script>
+    /* ====== Search + UI logic ====== */
+    const searchInput = document.getElementById('searchExpanded');
+    const searchIcon = document.querySelector('.search-toggle-icon');
+    const slider = document.getElementById('slider'); // might be null here
+    const mainTitle = document.getElementById('mainTitle');
+    const topHits = document.getElementById('top-hits');
+    const newReleases = document.getElementById('new-releases');
+    const searchResults = document.getElementById('search-results');
+    const searchGrid = document.getElementById('search-grid');
+    const notFoundMsg = document.getElementById('notFoundMsg');
+
+    // use live list (querySelectorAll returns static NodeList at load)
+    function getAllCards(){
+      return Array.from(document.querySelectorAll('.anime-card'));
+    }
+
+    function toggleSearch(){
+      if (searchInput.style.display === 'inline-block'){
+        searchInput.style.display = 'none';
+        mainTitle.style.display = 'block';
+        resetPageView();
+      } else {
+        searchInput.style.display = 'inline-block';
+        searchInput.focus();
+        mainTitle.style.display = 'none';
+      }
+    }
+
+    function resetPageView(){
+      if (slider) slider.style.display = 'block';
+      if (topHits) topHits.style.display = 'block';
+      if (newReleases) newReleases.style.display = 'block';
+      if (searchResults) searchResults.style.display = 'none';
+      searchGrid.innerHTML = '';
+      notFoundMsg.style.display = 'none';
+    }
+
+    function filterAnime(query){
+      const q = String(query || '').toLowerCase().trim();
+      searchGrid.innerHTML = '';
+      notFoundMsg.style.display = 'none';
+
+      if (!q){
+        resetPageView();
+        return;
+      }
+
+      // hide main sections
+      if (slider) slider.style.display = 'none';
+      if (topHits) topHits.style.display = 'none';
+      if (newReleases) newReleases.style.display = 'none';
+
+      const all = getAllCards();
+      let found = false;
+      all.forEach(card => {
+        const title = (card.getAttribute('data-title') || '').toLowerCase();
+        if (title.includes(q)){
+          // clone to keep original lists intact
+          searchGrid.appendChild(card.cloneNode(true));
+          found = true;
+        }
+      });
+
+      searchResults.style.display = 'block';
+      if (!found){
+        notFoundMsg.style.display = 'block';
+      }
+    }
+
+    // events
+    searchInput.addEventListener('input', ()=> filterAnime(searchInput.value));
+    searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') filterAnime(searchInput.value); });
+
+    // initial reset
+    resetPageView();
+
+    /* ====== OPTIONAL: notification badge (read from a simple array in a file) ======
+       If you use Notifications/notificationsData.js on your server which sets `window.notifications`,
+       uncomment this part to auto-update badge. Otherwise hide badge by default.
+    */
+    (function initBadge(){
+      const badge = document.getElementById('notifBadge');
+      if (!badge) return;
+      // If you include a notifications script that sets window.notifications = [...],
+      // update badge based on that array length.
+      if (window.notifications && Array.isArray(window.notifications)){
+        if (window.notifications.length === 0) badge.style.display = 'none';
+        else { badge.style.display = 'inline-block'; badge.textContent = window.notifications.length; }
+      } else {
+        // no external data -> hide badge
+        badge.style.display = 'none';
+      }
+    })();
+  </script>
 </body>
-</html>
+  </html>
