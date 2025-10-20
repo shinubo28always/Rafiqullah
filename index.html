@@ -224,145 +224,31 @@
       color: gray;
       user-select: none;
     }
- <style>
-/* === Search Result Section === */
-#search-results {
-  margin: 30px 15px;
-}
-
-/* Stylish Gradient Title */
-#searchTitle {
-  text-align: center;
-  font-size: 26px;
-  font-weight: 700;
-  background: linear-gradient(90deg, #ff6a00, #ee0979);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 25px;
-  letter-spacing: 1px;
-  animation: fadeIn 0.6s ease-in-out;
-}
-
-/* === Search Result Grid === */
-#search-results .anime-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Mobile: 2 cards per row */
-  gap: 15px;
-  justify-items: stretch; /* Cards stretch to fill column */
-}
-
-#search-results .anime-card {
-  width: 100%;       /* Fill column width */
-  height: auto;      /* Natural height (mismatch possible) */
-  display: flex;
-  flex-direction: column;
-  background-color: var(--nav-color);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  transition: transform 0.2s ease;
-}
-
-#search-results .anime-card:hover {
-  transform: scale(1.03);
-}
-
-#search-results .anime-card img {
-  width: 100%;
-  height: auto;       /* Auto height for natural mismatch */
-  object-fit: cover;  /* Cover column space nicely */
-}
-
-#search-results .anime-card h3 {
-  font-size: 16px;
-  padding: 10px;
-  margin: 0;
-  color: var(--text-color);
-  text-align: center;
-}
-
-#search-results .anime-card p {
-  color: gray;
-  font-size: 13px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* Not Found Message */
-#notFoundMsg {
-  text-align: center;
-  font-size: 18px;
-  font-weight: 500;
-  color: #888;
-  margin-top: 40px;
-  animation: fadeIn 0.6s ease-in-out;
-}
-
-/* Fade animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* === Responsive for Tablet/Desktop === */
-@media (min-width: 768px) {
-  #search-results .anime-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    justify-items: center;
-  }
-}
-</style>
+  </style>
 </head>
 <body class="dark">
 
-<!-- Navbar -->
-<div class="navbar" id="navbar">
-  <div class="navbar-left">
-    <span class="menu-icon" onclick="toggleDropdown()">☰</span>
-    <div class="dropdown" id="dropdown">
-      <!-- Dark Mode Button Removed -->
+  <!-- Navbar -->
+  <div class="navbar" id="navbar">
+    <div class="navbar-left">
+      <span class="menu-icon" onclick="toggleDropdown()">☰</span>
+      <div class="dropdown" id="dropdown">
+        <!-- Dark Mode Button Removed -->
+      </div>
+    </div>
+
+    <div class="title" id="mainTitle">AniReal - Anime Zone</div>
+
+    <input type="text" id="searchExpanded" class="search-box" placeholder="Search Anime..." autocomplete="off" />
+
+    <div class="navbar-right">
+      <span class="search-toggle-icon" onclick="toggleSearch()">🔍</span>
+      <span class="notification-icon">🔔</span>
     </div>
   </div>
 
-  <div class="title" id="mainTitle">AniReal - Anime Zone</div>
-
-  <!-- Search Box -->
-  <input type="text" id="searchExpanded" class="search-box" placeholder="Search Anime..." autocomplete="off" />
-
-  <div class="navbar-right">
-    <!-- Search Icon -->
-    <span class="search-toggle-icon" onclick="toggleSearch()" style="cursor:pointer;">🔍</span>
-
-    <!-- Notification Icon with Badge -->
-    <a href="Notifications/notification.html" class="notification-icon"
-       style="position: relative; display: inline-block; color: inherit; text-decoration: none; cursor: pointer; margin-left: 15px;">
-      🔔
-      <span id="notifBadge" 
-            style="position: absolute;
-                   top: -5px;
-                   right: -5px;
-                   background: red;
-                   color: #fff;
-                   font-size: 12px;
-                   padding: 2px 6px;
-                   border-radius: 50%;
-                   display: none;">
-      </span>
-    </a>
-  </div>
-</div>
-
-<!-- Include Notification Script -->
-<script src="Notifications/notification.js"></script>
   
 <!-- Slider -->
-
 <div class="slider" id="slider">
   <a href="https://t.me/One_Piece_in_Hindi_Dub_Original" target="_blank" class="slide active">
     <img src="https://photo.chelpbot.me/AgACAgUAAyEFAASaAAEylQADEWiU1tgqIp1IJb6Nuu6PYVEwX6pfAAKXwzEbiLbhV1Qd9ShGfhLgAQADAgADeQADNgQ/photo.jpg" alt="One Piece" />
@@ -406,11 +292,11 @@
     <h2>🔥 Top Hits Anime</h2>
     <div class="anime-grid">
       <a href="#" class="anime-card" data-title="dan da dan">
-        <img src="https://photo.chelpbot.me/AgACAgUAAxkBXBTyk2jzhTzE8ghcucHBSJShTpoqTwv6AAJ2C2sb3VehV0iyni70-V4mAQADAgADeQADNgQ/photo.jpg" alt="Dan Da Dan" />
-        <h3>Dan Da Dan Season 2</h3><p>Episodes: 12</p>
+        <img src="https://envs.sh/IlB.jpg" alt="Dan Da Dan" />
+        <h3>Dan Da Dan</h3><p>Episodes: 12</p>
       </a>
       <a href="#" class="anime-card" data-title="dr. stone">
-        <img src="https://photo.chelpbot.me/AgACAgUAAxkBXBUI-2jzhq0o81hpuYMLoME7AgLxAT9WAAJ9C2sb3VehV9Xw-JLl0Z-WAQADAgADdwADNgQ/photo.jpg" alt="Dr. Stone" />
+        <img src="https://envs.sh/IlI.jpg" alt="Dr. Stone" />
         <h3>Dr. Stone</h3><p>Episodes: 25+</p>
       </a>
       <a href="#" class="anime-card" data-title="gachiakuta">
@@ -429,7 +315,8 @@
       <h3>Solo Leveling</h3><p>Episodes: 10</p>
     </a>
     <a href="#" class="anime-card" data-title="kaiju no.8">
-      <img src="https://envs.sh/NEW2.jpg" alt="Kaiju No. 8" />
+
+<img src="https://envs.sh/NEW2.jpg" alt="Kaiju No. 8" />
       <h3>Kaiju No. 8</h3><p>Episodes: 8</p>
     </a>
     <a href="#" class="anime-card" data-title="wind breaker">
@@ -442,8 +329,7 @@
   <footer>
     <p>&copy; 2025 AniReal. All rights reserved.</p>
   </footer>  
-
-  <script>
+<script>
   // === Select Elements ===
   const slides = document.querySelectorAll(".slide");
   const sliderContainer = document.getElementById("slider");
@@ -455,29 +341,15 @@
   const newReleases = document.getElementById("new-releases");
   const allCards = document.querySelectorAll(".anime-card");
 
-// === Create Search Result Section ===
+  // === Create Search Result Section ===
   const searchResults = document.createElement("section");
   searchResults.id = "search-results";
   searchResults.className = "anime-section";
   searchResults.style.display = "none";
-  searchResults.innerHTML = 
-    <h2 id="searchTitle">🔍 Search Results</h2>
-    <div class="anime-grid" id="search-grid"></div>
-  ;
+  searchResults.innerHTML = <div class="anime-grid" id="search-grid"></div>;
   document.body.insertBefore(searchResults, document.querySelector("footer"));
 
   const searchGrid = document.getElementById("search-grid");
-
-  // === Create Not Found Message ===
-  const notFoundMsg = document.createElement("p");
-  notFoundMsg.id = "notFoundMsg";
-  notFoundMsg.textContent = "😢 No anime matched your search. Try something else!";
-  notFoundMsg.style.textAlign = "center";
-  notFoundMsg.style.color = "gray";
-  notFoundMsg.style.fontSize = "16px";
-  notFoundMsg.style.marginTop = "40px";
-  notFoundMsg.style.display = "none";
-  searchResults.appendChild(notFoundMsg);
 
   // === Slider ===
   let currentSlide = 0;
@@ -501,26 +373,19 @@
   }
 
   // === Outside click handler ===
- document.addEventListener("click", function (event) {
-  const dropdown = document.getElementById("dropdown");
-  const menuIcon = document.querySelector(".menu-icon");
+  document.addEventListener("click", function (event) {
+    const dropdown = document.getElementById("dropdown");
+    const menuIcon = document.querySelector(".menu-icon");
+    if (!dropdown.contains(event.target) && !menuIcon.contains(event.target)) {
+      dropdown.style.display = "none";
+    }
 
-  // Dropdown toggle logic
-  if (!dropdown.contains(event.target) && !menuIcon.contains(event.target)) {
-    dropdown.style.display = "none";
-  }
-
-  // Search input & search results logic
-  if (
-    !searchInput.contains(event.target) &&
-    !searchIcon.contains(event.target) &&
-    !searchResults.contains(event.target)
-  ) {
-    searchInput.style.display = "none";
-    mainTitle.style.display = "block";
-    resetPageView();
-  }
-});
+    if (!searchInput.contains(event.target) && !searchIcon.contains(event.target)) {
+      searchInput.style.display = "none";
+      mainTitle.style.display = "block";
+      resetPageView();
+    }
+  });
 
   // === Toggle Search Bar ===
   function toggleSearch() {
@@ -543,14 +408,12 @@
     newReleases.style.display = "block";
     searchResults.style.display = "none";
     searchGrid.innerHTML = "";
-    notFoundMsg.style.display = "none";
   }
 
   // === Filter Search ===
   function filterAnime(query) {
     const lowerQuery = query.toLowerCase().trim();
     searchGrid.innerHTML = "";
-    notFoundMsg.style.display = "none";
 
     if (lowerQuery === "") {
       resetPageView();
@@ -576,9 +439,7 @@
       }
     });
 
-    searchResults.style.display = "block";
-    document.getElementById("searchTitle").style.display = found ? "block" : "none";
-    notFoundMsg.style.display = found ? "none" : "block";
+    searchResults.style.display = found ? "block" : "none";
   }
 
 // === Input Event ===
@@ -586,6 +447,6 @@
   searchInput.addEventListener("keydown", e => {
     if (e.key === "Enter") filterAnime(searchInput.value);
   });
-  </script>
+</script>
 </body>
 </html>
