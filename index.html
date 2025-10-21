@@ -1,152 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AniReal - Anime Zone</title>
-  <style>
-    :root {
-      --bg-color: #121212;
-      --text-color: #ffffff;
-      --nav-color: #1e1e1e;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AniReal - Anime Zone</title>
 
-    body {
-      margin: 0;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: Arial, sans-serif;
-    }
+<style>
+:root {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --nav-color: #1e1e1e;
+  --accent-color: #FFD700;
+}
 
-    .navbar {
-      background-color: var(--nav-color);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      position: relative;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
 
-    .navbar-left, .navbar-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+/* ===== NAVBAR ===== */
+.navbar {
+  background-color: var(--nav-color);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+}
 
-    .menu-icon, .search-toggle-icon, .notification-icon {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      transition: opacity 0.2s ease;
-    }
-    .menu-icon:hover, .search-toggle-icon:hover, .notification-icon:hover {
-      opacity: 0.7;
-    }
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
-    .title {
-      font-size: 16px; /* previous size */
-      font-weight: bold;
-      flex-grow: 1;
-      text-align: center;
-      transition: opacity 0.3s ease;
-    }
+.menu-icon, .search-toggle-icon, .notification-icon {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  fill: var(--text-color);
+  transition: opacity 0.2s ease;
+}
 
-    .search-box {
-      display: none;
-      padding: 8px 15px;
-      font-size: 14px; /* previous size */
-      border: 1px solid #555;
-      border-radius: 20px;
-      background-color: #2b2b2b;
-      color: #fff;
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
+.menu-icon:hover, .search-toggle-icon:hover, .notification-icon:hover {
+  opacity: 0.7;
+}
 
-    .search-box:focus {
-      border-color: #FFD700;
-    }
+.dropdown {
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  background-color: var(--nav-color);
+  border: 1px solid #333;
+  padding: 10px;
+  display: none;
+  z-index: 10;
+  border-radius: 5px;
+  min-width: 150px;
+}
 
-    .main-content {
-      padding: 50px;
-      text-align: center;
-    }
+.title {
+  font-size: 20px; /* same as search box */
+  font-weight: bold;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-grow: 1;
+  text-align: center;
+}
 
-    .welcome-text {
-      font-size: 24px;
-      color: #FFD780;
-    }
+.search-box {
+  font-size: 20px; /* same as title */
+  padding: 8px 15px;
+  border: 1px solid #555;
+  border-radius: 20px;
+  outline: none;
+  background-color: #2b2b2b;
+  color: #fff;
+  flex-grow: 1;
+  max-width: 400px;
+  display: none;
+  transition: all 0.3s ease;
+  text-align: center;
+}
 
-    @media (max-width: 600px) {
-      .title { font-size: 16px; }
-      .search-box { font-size: 13px; }
-    }
-  </style>
+.search-box::placeholder {
+  color: #999;
+}
+
+.main-content {
+  padding: 48px 28px;
+  text-align: center;
+}
+
+.welcome-text {
+  font-size: 24px;
+  color: var(--accent-color);
+  margin-top: 50px;
+}
+</style>
 </head>
+
 <body>
-  <div class="navbar">
-    <div class="navbar-left">
-      <!-- Menu Icon -->
-      <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="3" y1="6" x2="21" y2="6" />
-        <line x1="3" y1="12" x2="21" y2="12" />
-        <line x1="3" y1="18" x2="21" y2="18" />
-      </svg>
+  <div class="App">
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+      <div class="navbar-left">
+        <svg class="menu-icon" onclick="toggleDropdown()" viewBox="0 0 24 24">
+          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="dropdown" id="dropdown">
+          <p>Home</p>
+          <p>Popular</p>
+          <p>New Releases</p>
+        </div>
+      </div>
+
+      <div class="title" id="mainTitle">AniReal - Anime Zone</div>
+      <input type="text" id="searchBox" class="search-box" placeholder="Search Anime..." autocomplete="off">
+
+      <div class="navbar-right">
+        <svg class="search-toggle-icon" onclick="toggleSearch()" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <svg class="notification-icon" viewBox="0 0 24 24">
+          <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6.002 6.002 0 0 0-4-5.659V4a2 2 0 1 0-4 0v1.341C8.67 6.165 8 7.388 8 9v5.159c0 .538-.214 1.055-.595 1.436L6 17h5m4 0v1a3 3 0 1 1-6 0v-1m6 0H9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
     </div>
 
-    <div class="title" id="mainTitle">AniReal - Anime Zone</div>
-    <input type="text" id="searchBox" class="search-box" placeholder="Search Anime..." autocomplete="off" />
-
-    <div class="navbar-right">
-      <!-- Search Icon -->
-      <svg class="search-toggle-icon" id="searchIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8" />
-        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-      </svg>
-
-      <!-- Notification Icon -->
-      <svg class="notification-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-      </svg>
+    <div class="main-content">
+      <p class="welcome-text">Welcome to AniReal - Your Ultimate Anime Zone!</p>
     </div>
   </div>
 
-  <div class="main-content">
-    <p class="welcome-text">Welcome to AniReal - Your Ultimate Anime Zone!</p>
-  </div>
+<script>
+const searchBox = document.getElementById('searchBox');
+const title = document.getElementById('mainTitle');
+const dropdown = document.getElementById('dropdown');
 
-  <script>
-    const searchIcon = document.getElementById('searchIcon');
-    const searchBox = document.getElementById('searchBox');
-    const mainTitle = document.getElementById('mainTitle');
+function toggleSearch() {
+  const visible = searchBox.style.display === 'block';
+  if (visible) {
+    searchBox.style.display = 'none';
+    title.style.display = 'block';
+  } else {
+    searchBox.style.display = 'block';
+    title.style.display = 'none';
+    searchBox.focus();
+  }
+}
 
-    searchIcon.addEventListener('click', () => {
-      const isActive = searchBox.style.display === 'block';
-      if (isActive) {
-        searchBox.style.display = 'none';
-        mainTitle.style.display = 'block';
-      } else {
-        searchBox.style.display = 'block';
-        mainTitle.style.display = 'none';
-        searchBox.focus();
-      }
-    });
-
-    searchBox.addEventListener('blur', () => {
-      searchBox.style.display = 'none';
-      mainTitle.style.display = 'block';
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        searchBox.style.display = 'none';
-        mainTitle.style.display = 'block';
-      }
-    });
-  </script>
+function toggleDropdown() {
+  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+</script>
 </body>
 </html>
