@@ -18,6 +18,7 @@
       font-family: Arial, sans-serif;
     }
 
+    /* ===== NAVBAR ===== */
     .navbar {
       background-color: var(--nav-color);
       padding: 12px 20px;
@@ -44,24 +45,25 @@
       opacity: 0.7;
     }
 
+    /* ===== TITLE & SEARCH ===== */
     .title {
-      font-size: 20px; /* previous size */
+      font-size: 20px;
       font-weight: bold;
       flex-grow: 1;
       text-align: center;
       transition: opacity 0.3s ease;
+      white-space: nowrap;
     }
 
     .search-box {
       display: none;
-      padding: 7px 14px;
-      font-size: 16px; /* previous size */
+      padding: 5px 10px;
+      font-size: 14px;
       border: 1px solid #555;
-      border-radius: 14px;
+      border-radius: 20px;
       background-color: #2b2b2b;
       color: #fff;
-      max-width: 300px;
-      width: 90%;
+      width: 180px;
       text-align: center;
       transition: all 0.3s ease;
     }
@@ -70,19 +72,9 @@
       border-color: #FFD700;
     }
 
-    .main-content {
-      padding: 50px;
-      text-align: center;
-    }
-
-    .welcome-text {
-      font-size: 24px;
-      color: #FFD780;
-    }
-
     @media (max-width: 500px) {
       .title { font-size: 16px; }
-      .search-box { font-size: 11px; }
+      .search-box { font-size: 12px; width: 150px; }
     }
   </style>
 </head>
@@ -115,22 +107,18 @@
     </div>
   </div>
 
-  <div class="main-content">
-    <p class="welcome-text">Welcome to AniReal - Your Ultimate Anime Zone!</p>
-  </div>
-
   <script>
     const searchIcon = document.getElementById('searchIcon');
     const searchBox = document.getElementById('searchBox');
     const mainTitle = document.getElementById('mainTitle');
 
     searchIcon.addEventListener('click', () => {
-      const isActive = searchBox.style.display === 'block';
+      const isActive = searchBox.style.display === 'inline-block';
       if (isActive) {
         searchBox.style.display = 'none';
         mainTitle.style.display = 'block';
       } else {
-        searchBox.style.display = 'block';
+        searchBox.style.display = 'inline-block';
         mainTitle.style.display = 'none';
         searchBox.focus();
       }
